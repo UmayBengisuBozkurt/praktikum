@@ -1,4 +1,10 @@
+#! /usr/bin/python3
 import time
+import uvicorn
+import os
+import signal
+import sys
+from multiprocessing import Process
 from fastapi import FastAPI, HTTPException
 from sensor_reader import SensorReader
 import asyncio
@@ -63,3 +69,23 @@ async def read_sensors_data():
 async def startup_event():
     # Start the asynchronous sensor data reading task
     asyncio.create_task(read_sensors_data())
+
+def run_server():
+     pid = os.fork()
+     if pid != 0:
+         return
+     print('Starting ' + str(os.getpid()))
+     print(os.getpid(), file=open('sensor.pid', 'w'))
+     uvicorn.run("sensor_api:app", host="::", sensor=9119, log_level="info")
+
+if __name__ == "__main__":
+     if os.path.exists('sensor.pid'):
+       with open("sensor.pid","r") as f: pid =f.read()
+       print('Killing ' + str(int(pid)))
+       os.remove('sensor.pid')
+       os.kill(int(pid),signal.SIGINT)
+     else:
+       proc = Process(target=run_server, args=(), daemon=True)
+       proc.start()
+       proc.join()
+
