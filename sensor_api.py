@@ -65,6 +65,33 @@ async def read_sensors_data():
         # Sleep for a while before reading again
         await asyncio.sleep((max(0.0, 1 - elapsed_time)))
 
+# Return all sensor values
+@app.get("/sensors")
+async def get_all_sensor_values():
+    return sensors
+
+@app.get("/check_sensors")
+def check_sensors():
+    sensor_status = {}
+    for sensor_id, sensor in sensors.items():
+        if sensor.sensor_value is not None:
+            sensor_status[sensor_id] = sensor.sensor_value
+        else:
+            sensor_status[sensor_id] = 0
+    return sensor_status
+     
+@app.get("/check_sensor/{sensor_id}")
+def check_sensor(sensor_id: int):
+    if sensor_id not in sensors:
+        raise HTTPException(status_code=404, detail="Sensor not found")
+
+    sensor = sensors[sensor_id]
+    sensor_value = sensor.sensor_value
+    if sensor_value is not None:
+        return sensor_value
+    else:
+        return 0
+
 @app.on_event("startup")
 async def startup_event():
     # Start the asynchronous sensor data reading task
