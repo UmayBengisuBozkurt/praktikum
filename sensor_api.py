@@ -13,12 +13,18 @@ import json
 app = FastAPI()
 # Create instances of SensorReader for each sensor
 sensors = {}
-for i in range(1, 6):
-    port = f'COM{i}'
-    sensor_name = f'Sensor {i}'
-    sensors[i] = SensorReader(port, sensor_name)
-    sensors[i].start_reading()
+sensors_config = {
+    1: ('COM6', "Sensor 1"),
+    2: ('COM5', "Sensor 2"),
+   # 3: ('COM3', "Sensor 3"),
+   # 4: ('COM7', "Sensor 4"),
+   # 5: ('COM4', "Sensor 4"),
+}
 
+for sensor_id, config in sensors_config.items():
+    port, name = config
+    sensors[sensor_id] = SensorReader(port, name)
+    sensors[sensor_id].start_reading()
 sensor_first_detection = {sensor_id: False for sensor_id in sensors}
 
 
