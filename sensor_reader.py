@@ -4,7 +4,7 @@ import threading
 
 class SensorReader:
     def __init__(self, usb_name, sensor_name):
-        self.ser = serial.Serial('/tty'+ usb_name, baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None)
+        self.ser = serial.Serial('/dev/tty'+ usb_name, baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None)
         self.thread = threading.Thread(target=self.read_sensor)
         self.sensor_value = None
 
