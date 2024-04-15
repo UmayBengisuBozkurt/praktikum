@@ -13,17 +13,16 @@ import json
 app = FastAPI()
 # Create instances of SensorReader for each sensor
 sensors = {}
-sensors_config = {
-    1: ('COM6', "Sensor 1"),
-    2: ('COM5', "Sensor 2"),
+usb_names = {
+    1: "USB1",
+    2: "USB2"
    # 3: ('COM3', "Sensor 3"),
    # 4: ('COM7', "Sensor 4"),
    # 5: ('COM4', "Sensor 4"),
 }
 
-for sensor_id, config in sensors_config.items():
-    port, name = config
-    sensors[sensor_id] = SensorReader(port, name)
+for sensor_id, usb_name in usb_names.items():
+    sensors[sensor_id] = SensorReader(usb_name, f"Sensor {sensor_id}")
     sensors[sensor_id].start_reading()
 sensor_first_detection = {sensor_id: False for sensor_id in sensors}
 
