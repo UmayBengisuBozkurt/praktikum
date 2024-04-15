@@ -108,7 +108,7 @@ def run_server():
          return
      print('Starting ' + str(os.getpid()))
      print(os.getpid(), file=open('sensor.pid', 'w'))
-     uvicorn.run("sensor_api:app", host="::", sensor=9119, log_level="info")
+     uvicorn.run("sensor_api:app", host="::", port=9119, log_level="info")
 
 if __name__ == "__main__":
      if os.path.exists('sensor.pid'):
