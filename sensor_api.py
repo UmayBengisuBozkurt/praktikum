@@ -115,7 +115,7 @@ if __name__ == "__main__":
        with open("sensor.pid","r") as f: pid =f.read()
        print('Killing ' + str(int(pid)))
        os.kill(int(pid),signal.SIGINT)
-       os.remove('sensor.pid')
+       #os.remove('sensor.pid')
      proc = Process(target=run_server, args=(), daemon=True)
      proc.start()
      proc.join()
