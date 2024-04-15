@@ -15,7 +15,7 @@ app = FastAPI()
 sensors = {}
 usb_names = {
     1: "USB1",
-    2: "USB2"
+    2: "USB3"
    # 3: ('COM3', "Sensor 3"),
    # 4: ('COM7', "Sensor 4"),
    # 5: ('COM4', "Sensor 4"),
