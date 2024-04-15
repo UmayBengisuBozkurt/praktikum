@@ -114,10 +114,9 @@ if __name__ == "__main__":
      if os.path.exists('sensor.pid'):
        with open("sensor.pid","r") as f: pid =f.read()
        print('Killing ' + str(int(pid)))
-       os.remove('sensor.pid')
        os.kill(int(pid),signal.SIGINT)
-     else:
-       proc = Process(target=run_server, args=(), daemon=True)
-       proc.start()
-       proc.join()
+       os.remove('sensor.pid')
+     proc = Process(target=run_server, args=(), daemon=True)
+     proc.start()
+     proc.join()
 
